@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     }
     connection.query(sql, sqlValues, (err, results) => {
       if (err) {
-        res.status(500).send('Error retrieving products from db.');
+        res.status(500).send('Error retrieving books from db.');
       } else if (results.length === 0) {
         res.status(422).send('Book not found')
       } else {
@@ -35,10 +35,10 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-    const userId = req.params.id;
-    const userPropsToUpdate = req.body;
+    const bookId = req.params.id;
+    const bookPropsToUpdate = req.body;
     const sql = `UPDATE books SET ? WHERE id = ?`
-    connection.query(sql, [userPropsToUpdate, userId],
+    connection.query(sql, [bookPropsToUpdate, bookId],
       (err) => {
         if (err) {
           console.log(err);
@@ -51,15 +51,15 @@ router.put('/:id', (req, res) => {
   });
 
   router.delete('/:id', (req, res) => {
-    const userId = req.params.id;
+    const bookId = req.params.id;
     const sql = `DELETE FROM books WHERE id = ?`
-    connection.query(sql, [userId],
+    connection.query(sql, [bookId],
       (err, results) => {
         if (err) {
           console.log(err);
-          res.status(500).send('😱 Error deleting an user');
+          res.status(500).send('Error deleting a book');
         } else {
-          res.status(200).send('🎉 User deleted!');
+          res.status(200).send('Book deleted!');
         }
       }
     );
